@@ -1,5 +1,3 @@
-import './CartWidget.css';
-
 
 const CartWidget = () => {
     return (
@@ -7,4 +5,4 @@ const CartWidget = () => {
     );
 }
 
-export default CartWidget;
+export default CartWidget;  

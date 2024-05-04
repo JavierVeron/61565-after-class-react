@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import CartWidget from '../CartWidget/CartWidget';
+import UserWidget from '../UserWidget/UserWidget';
 
 function NavBar() {
   return (
@@ -27,8 +28,9 @@ function NavBar() {
             <Nav.Link href="#contacto">Contacto</Nav.Link>  
           </Nav>
           <Nav>
-            <Nav.Link href="#usuario">icono usuario</Nav.Link>
-            <Nav.Link eventKey={2} href="#cartWidget"> icono carrito
+            <Nav.Link href="#usuario"><UserWidget/>
+            </Nav.Link>
+            <Nav.Link eventKey={2} href="#cartWidget">
               <CartWidget/>
             </Nav.Link>
           </Nav>

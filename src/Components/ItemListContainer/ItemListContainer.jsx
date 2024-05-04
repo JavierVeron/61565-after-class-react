@@ -1,7 +1,7 @@
 import React from "react";
-/*import Greetings from '../Title/Greetings';*/
 import { useEffect, useState } from "react";
 import ItemList from "../ItemList/ItemList";
+
 
 
 const fetchItems = () => {
