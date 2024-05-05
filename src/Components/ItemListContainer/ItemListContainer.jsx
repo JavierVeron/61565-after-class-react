@@ -54,7 +54,7 @@ const ItemListContainer = () => {
 
     return (
         <div className="item-list-container">
-            <h1>Welcome to our Store</h1>
+            <h1>Opciones naturales para ti</h1>
             {
                 loading
                 ? <div>Cargando...</div>
@@ -64,12 +64,4 @@ const ItemListContainer = () => {
     )
 };
 
-
-/*
-const ItemListContainer = (props) => {
-    return (
-        <Greetings greeting={props.texto} />
-    );
-}
-*/
 export default ItemListContainer;

@@ -27,14 +27,17 @@ function NavBar() {
             <Nav.Link href="#blog">Blog</Nav.Link>
             <Nav.Link href="#contacto">Contacto</Nav.Link>  
           </Nav>
-          <Nav>
+          
+        </Navbar.Collapse>
+
+        <Nav>
             <Nav.Link href="#usuario"><UserWidget/>
             </Nav.Link>
             <Nav.Link eventKey={2} href="#cartWidget">
               <CartWidget/>
             </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+        </Nav>
+
       </Container>
     </Navbar>
   );
