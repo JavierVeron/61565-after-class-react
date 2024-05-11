@@ -1,45 +1,36 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link, NavLink } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
-import UserWidget from '../UserWidget/UserWidget';
 
 function NavBar() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#naturelle">Naturelle</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">    
-          <Nav className="me-auto">
-          <NavDropdown title="Productos" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#aceites">Aceites</NavDropdown.Item>
-              <NavDropdown.Item href="#inciensos">
-                Galeas
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#jabones">Jabónes</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#tes">
-                Tés
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="#blog">Blog</Nav.Link>
-            <Nav.Link href="#contacto">Contacto</Nav.Link>  
-          </Nav>
-          
-        </Navbar.Collapse>
-
-        <Nav>
-            <Nav.Link href="#usuario"><UserWidget/>
-            </Nav.Link>
-            <Nav.Link eventKey={2} href="#cartWidget">
-              <CartWidget/>
-            </Nav.Link>
-        </Nav>
-
-      </Container>
-    </Navbar>
+    <div className="container">
+      <div className="row my-3">
+        <div className="col text-center">
+          <Link to={"/"}>
+            <img src="https://acdn.mitiendanube.com/stores/001/070/304/themes/common/logo-256865518-1659190912-fd89c452a45cd9441d9e929b2d7616cc1659190912-320-0.webp" alt="Jabones Naturales" width={160} />
+          </Link>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col"></div>
+        <div className="col">
+          <ul className="nav justify-content-center">
+            <li className="nav-item">
+              <NavLink className="nav-link text-secondary" to={"/category/linea_piel"}>Líneal Piel</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link text-secondary" to={"/category/linea_capilar"}>Línea Capilar</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link text-secondary" to={"/category/linea_aromaterapia"}>Línea Aromaterapia</NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="col text-end">
+          <CartWidget/>
+        </div>
+      </div>
+    </div>
   );
 }
 
