@@ -5,6 +5,7 @@ import NavBar from './Components/NavBar/NavBar';
 import ItemListContainer from './Components/ItemList/ItemListContainer';
 import ItemDetailContainer from './Components/ItemDetail/ItemDetailContainer';
 import Error404 from './Components/Error404/Error404';
+import Checkout from './Components/Checkout/Checkout';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route exact path={"/"} element={<ItemListContainer />} />
             <Route exact path={"/category/:categoryId"} element={<ItemListContainer />} />
             <Route exact path={"/item/:id"} element={<ItemDetailContainer />} />
+            <Route exact path={"/checkout"} element={<Checkout />} />
             <Route exact path={"*"} element={<Error404 />} />
           </Routes> 
       </BrowserRouter>
