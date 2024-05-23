@@ -4,22 +4,27 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './Components/NavBar/NavBar';
 import ItemListContainer from './Components/ItemList/ItemListContainer';
 import ItemDetailContainer from './Components/ItemDetail/ItemDetailContainer';
-import Error404 from './Components/Error404/Error404';
+import Cart from './Components/Cart/Cart';
 import Checkout from './Components/Checkout/Checkout';
+import Error404 from './Components/Error404/Error404';
+import CartContextProvider from './Components/Context/CartContext';
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-          <NavBar/>
-          <Routes>
-            <Route exact path={"/"} element={<ItemListContainer />} />
-            <Route exact path={"/category/:categoryId"} element={<ItemListContainer />} />
-            <Route exact path={"/item/:id"} element={<ItemDetailContainer />} />
-            <Route exact path={"/checkout"} element={<Checkout />} />
-            <Route exact path={"*"} element={<Error404 />} />
-          </Routes> 
-      </BrowserRouter>
+      <CartContextProvider>
+        <BrowserRouter>
+            <NavBar/>
+            <Routes>
+              <Route exact path={"/"} element={<ItemListContainer />} />
+              <Route exact path={"/category/:categoryId"} element={<ItemListContainer />} />
+              <Route exact path={"/item/:id"} element={<ItemDetailContainer />} />
+              <Route exact path={"/cart"} element={<Cart />} />
+              <Route exact path={"/checkout"} element={<Checkout />} />
+              <Route exact path={"*"} element={<Error404 />} />
+            </Routes> 
+        </BrowserRouter>
+      </CartContextProvider>
     </>
   )
 }

@@ -1,65 +1,27 @@
-import { useEffect, useState } from "react";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, updateDoc, where, writeBatch } from "firebase/firestore";
-import Loading from "../Loading/Loading";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../Context/CartContext";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 const Checkout = () => {
-    const [cart, setCart] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const {cart, getTotalProducts, getSumProducts} = useContext(CartContext);
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
     const [orderId, setOrderId] = useState("");
 
-    // Acceder a una Colección usando filtros en Firestore
-    useEffect(() => {
-        const db = getFirestore();
-        const itemsCollection = collection(db, "items");
-        const resultQuery = query(itemsCollection, where("precio", "<", 50000));
-        getDocs(resultQuery).then(snapShot => {
-            if (snapShot.size > 0) {
-                setCart(snapShot.docs.map(item => ({id:item.id, ...item.data()})));
-                setLoading(false);
-            } else {
-                console.log("No existen Documentos!");
-                setCart([]);
-            }
-        });
-    }, []);
-
-    const obtenerSumaTotal = () => {
-        return cart.reduce((acumulador, item) => acumulador += item.precio, 0);
-    }
-
     const generarOrden = () => {
         const buyer = {name:nombre, email:email, telephone:telefono};
-        const items = cart.map(item => ({id:item.id, title:item.nombre, price:item.precio}));
-        const order = {buyer:buyer, items:items, total:obtenerSumaTotal()};
+        const items = cart.map(item => ({id:item.id, title:item.name, price:item.price}));
+        const order = {buyer:buyer, items:items, total:getSumProducts()};
         const db = getFirestore();
         const ordersCollection = collection(db, "orders");
+        //console.log(order);
         
-        // Agregar un nuevo Documento
-        /* addDoc(ordersCollection, order).then(data => {
+        // Agregar un nuevo Documento en Firestore
+        addDoc(ordersCollection, order).then(data => {
+            console.log(data);
             setOrderId(data.id);
-        }); */
-
-        // Actualizar un Documento
-        /* const orderRef = doc(db, "items", "DwP3KfW2k9Ge8HdlRUOm");
-        getDoc(orderRef).then(producto => {
-            const {stock} = producto.data();
-            updateDoc(orderRef, {precio:9000, stock:(stock - 1)});
-            console.log("Producto actualizado!");
-        }) */
-
-        // Actualizar uno o más Documentos
-        const batch = writeBatch(db);
-        const doc1 = doc(db, "items", "DwP3KfW2k9Ge8HdlRUOm");
-        const doc2 = doc(db, "items", "QYRmQ28AkxpCBBiz9Iv8");
-        const doc3 = doc(db, "items", "yOQ7Su4k5OU8b6aesGkW");
-        batch.update(doc1, {stock:20}); //actualiza los campos, sino existe lo agrega
-        batch.update(doc2, {stock:30});
-        batch.set(doc3, {stock:50}); //borra todos los campos y agrega los nuevos campos definidos en el objeto
-        batch.commit();
-        console.log("Documentos actualizados!");
+        });
     }
 
     return (
@@ -83,25 +45,25 @@ const Checkout = () => {
                     </form>
                 </div>
                 <div className="col">
-                    {loading ? <Loading /> : 
                     <table className="table">
                         <tbody>
                             {
                                 cart.map((item) => (
                                     <tr key={item.id}>
-                                        <td className="align-middle"><img src={item.imagen} alt={item.nombre} width={64} /></td>
-                                        <td className="align-middle">{item.nombre}</td>
-                                        <td className="align-middle text-end">${item.precio}</td>
+                                        <td><img src={item.imageUrl} alt={item.name} width={64} /></td>
+                                        <td className="align-middle text-start">{item.name}</td>
+                                        <td className="align-middle text-center">${item.price}</td>
+                                        <td className="align-middle text-center">x{item.quantity}</td>
+                                        <td className="align-middle text-center">${item.quantity * item.price}</td>
                                     </tr>
                                 ))
                             }
                             <tr>
-                                <td colSpan={2}><b>Total</b></td>
-                                <td className="text-end"><b>${obtenerSumaTotal()}</b></td>
+                                <td colSpan={4} className="align-middle text-center"><b>Total</b></td>
+                                <td className="align-middle text-center"><b>${getSumProducts()}</b></td>
                             </tr>
                         </tbody>
                     </table>
-                    }
                 </div>
             </div>
             <div className="row my-5">

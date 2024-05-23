@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
 import ItemDetail from "./ItemDetail";
-import arrayProductos from "../../json/productos.json";
 import { useParams } from "react-router-dom";
-
-const fetchItems = () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(arrayProductos);
-        }, 2000)
-    })
-};
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const ItemDetailContainer = () => {
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(true);
     const {id} = useParams();
 
+    // Acceder a un Documento en Firestore
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetchItems();
-            setItem (id ? data.find(item => item.id == id) : {});
-            setLoading (false);
-        };
-
-        fetchData();
+        const db = getFirestore();
+        const docRef = doc(db, "items", id);
+        getDoc(docRef).then(snapShot => {
+            if (snapShot.exists()) {
+                setItem({id:snapShot.id, ...snapShot.data()});
+                setLoading(false);
+            } else {
+                console.log("No existe el Documento!");
+                setItem({});
+            }
+        });
     }, [id]);
 
     return (
